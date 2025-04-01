@@ -1,0 +1,12 @@
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.links-container {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+}

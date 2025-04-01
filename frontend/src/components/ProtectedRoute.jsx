@@ -33,7 +33,6 @@ function ProtectedRoute({children}) {
 
     const auth = async () => {
         const token = localStorage.getItem(ACCESS_TOKEN)
-        console.log("Access Token:", token)
 
         if (!token) {
             setIsAuthorized(false);
@@ -54,8 +53,7 @@ function ProtectedRoute({children}) {
     if (isAuthorized === null ) {
         return <div>Loading...</div>;
     }
-    console.log("here3")
-    console.log(isAuthorized)
+
     // send back to login page without authorization
     return isAuthorized ? children : <Navigate to="/login" />;
 }

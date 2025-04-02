@@ -1,15 +1,24 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Book, Genre
+from .models import Book, Genre, UserProfile
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["is_admin"]
 
 class UserSerializer(serializers.ModelSerializer):
+
+    profile = UserProfileSerializer(read_only=True)
+    
     class Meta:
         model = User
-        fields = ["id", "username", "password"]
+        fields = ["id", "username", "password", "profile"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        UserProfile.objects.create(user=user)
         return user
     
 

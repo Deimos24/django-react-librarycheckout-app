@@ -1,12 +1,9 @@
 import "../styles/Book.css"
-import { useState } from "react";
+import LoadingIndicator from "./LoadingIndicator";
 
 function Book({ bookData }) {
 
-    const [showTooltip, setShowTooltip] = useState(false);
-
-    // change to spinner asap
-    if (!bookData) return <p>Loading...</p>;
+    if (!bookData) return <LoadingIndicator/>;
 
     const buttonText = bookData.status === "available" ? "Check Out!" : "Waitlist";
 
@@ -15,8 +12,6 @@ function Book({ bookData }) {
         // Add API call to checkout book
     };
 
-
-    // eventually want to add a hover item for genre 'cloud'
     return (
         <div className="book-container">
             <h2>{bookData.title}</h2>

@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import "../styles/Navbar.css"
 
 function Navbar() {
+
     return (
         <nav className="nav-bar">
                 <h1 className="app-title">My Library App</h1>

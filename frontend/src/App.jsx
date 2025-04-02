@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import Register from "./pages/Register"
 import FindBooks from "./pages/FindBooks"
+import Administration from "./pages/Administration"
 
 function Logout() {
   localStorage.clear()
@@ -32,14 +33,19 @@ function App() {
             <Home />
           </ProtectedRoute>
         } />
+        <Route path="/books" element={
+          <ProtectedRoute>
+            <FindBooks />
+          </ProtectedRoute>
+        } />
         <Route path="/contribute" element={
           <ProtectedRoute>
             <Contribute />
           </ProtectedRoute>
         } />
-        <Route path="/books" element={
+        <Route path="/admin" element={
           <ProtectedRoute>
-            <FindBooks />
+            <Administration />
           </ProtectedRoute>
         } />
         <Route path="/login" element={<Login />} />

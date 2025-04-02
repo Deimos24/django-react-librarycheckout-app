@@ -1,6 +1,7 @@
 import api from "../api"
 import { useState } from "react";
 import "../styles/Contribute.css"
+import { parseErrorResponse } from "../components/utils";
 
 function Contribute() {
 
@@ -38,15 +39,7 @@ function Contribute() {
                 setBookData({ title: "", author: "", content: "", publication_date: "", genres: [] });
             }
         } catch (error) {
-            // parse errors so user can read in alert modal
-            if (error.response && error.response.data) {
-                const messages = Object.entries(error.response.data)
-                    .map(([field, errors]) => `${field}: ${errors.join(", ")}`)
-                    .join("\n");
-                alert(`Error adding book:\n${messages}`);
-            } else {
-                alert("An unexpected error occurred.");
-            }
+            alert(parseErrorResponse(error));
         } finally {
             setLoading(false)
         }

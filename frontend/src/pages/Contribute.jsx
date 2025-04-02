@@ -38,7 +38,15 @@ function Contribute() {
                 setBookData({ title: "", author: "", content: "", publication_date: "", genres: [] });
             }
         } catch (error) {
-            alert(error)
+            // parse errors so user can read in alert modal
+            if (error.response && error.response.data) {
+                const messages = Object.entries(error.response.data)
+                    .map(([field, errors]) => `${field}: ${errors.join(", ")}`)
+                    .join("\n");
+                alert(`Error adding book:\n${messages}`);
+            } else {
+                alert("An unexpected error occurred.");
+            }
         } finally {
             setLoading(false)
         }

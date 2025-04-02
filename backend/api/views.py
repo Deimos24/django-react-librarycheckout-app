@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import random
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.response import Response
@@ -23,6 +24,16 @@ class BookCountView(APIView):
         book_count = Book.objects.count()
         return Response({"count": book_count})
 
+class GetRandomBook(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        books = Book.objects.filter(status="available")
+        if books.exists():
+            book = random.choice(books)
+            serializer = BookSerializer(book)
+            return Response(serializer.data)
+        return Response({"error": "No available books"}, status=404)
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()

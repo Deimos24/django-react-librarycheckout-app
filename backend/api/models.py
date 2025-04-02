@@ -26,6 +26,13 @@ class Book(models.Model):
         else:
             self.status = "available"
         super().save(*args, **kwargs)
+
+    # not sure if clearing genre connections before deleting is needed
+    # doesn't work in dbeaver
+    
+    # def delete(self, *args, **kwargs):
+    #     self.genres.clear()
+    #     super().delete(*args, **kwargs)
     
 class Genre(models.Model):
     name = models.CharField(max_length=50, unique=True)

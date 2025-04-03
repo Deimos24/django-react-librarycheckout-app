@@ -7,8 +7,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ["is_admin"]
 
-class UserSerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ["name"]
 
+class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
     
     class Meta:

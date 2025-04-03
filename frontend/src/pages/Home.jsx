@@ -40,7 +40,6 @@ function Home() {
             try {
                 const res = await api.get("/api/current-user/")
                 const user = res.data
-                console.log(user)
                 setUsername(user.username)
             } catch (error) {
                 console.error("Error fetching user data", error)

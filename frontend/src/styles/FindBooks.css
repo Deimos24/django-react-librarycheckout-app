@@ -1,0 +1,53 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-select {
+    width: 12em;
+}
+
+.form-input {
+ width: 24em;
+}
+
+.form-button {
+ width: 6em;
+}
+
+.search-limit-div {
+    display: flex;
+    flex-direction: column;
+}
+.search-limit-div p {
+    margin: 2px;
+}
+
+.search-results-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    gap: 2em;
+    margin-top: 2em;
+}
+
+.genre {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.genre:hover {
+    background-color: #ddd;
+}
+
+.genre.selected {
+    background-color: #007bff;
+    color: white;
+}

@@ -28,18 +28,7 @@ function LoginForm({ route, method }) {
                 navigate("/login");
             }
         } catch (error) {
-            // parse errors so user can read in alert modal
-            // this isn't working here? 
-            // Uncaught (in promise) TypeError: errors.join is not a function
-            // if (error.response && error.response.data) {
-            //     const messages = Object.entries(error.response.data)
-            //         .map(([field, errors]) => `${field}: ${errors.join(", ")}`).join("\n");
-            //     alert(`Error logging in:\n${messages}`);
-            // } else {
-            //     alert("An unexpected error occurred.");
-            // }
             alert(parseErrorResponse(error));
-            // console.log("error response:", error.response.data)
         } finally {
             setLoading(false)
         }

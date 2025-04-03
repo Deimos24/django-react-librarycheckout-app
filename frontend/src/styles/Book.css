@@ -39,18 +39,26 @@
 }
 
 .book-button {
-    background: #8b4513;
     color: white;
     padding: 8px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s ease-in-out;
 }
 
-.book-button:hover {
+.book-button.available {
+        background: #8b4513;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        font-weight: bold;
+}
+
+.book-button.available:hover {
     background: #a0522d;
+}
+
+.book-button.waitlist {
+    background-color: #757575;
+    cursor: not-allowed;
 }
 
 .genre-cloud {

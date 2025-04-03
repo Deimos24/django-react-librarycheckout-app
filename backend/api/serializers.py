@@ -27,12 +27,13 @@ class UserSerializer(serializers.ModelSerializer):
     
 
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.ListField(child=serializers.CharField(), write_only=True)
-    genre_objects = serializers.SerializerMethodField()
+    genres = serializers.SerializerMethodField()
+    # status_display = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Book
-        fields = ["id", "title", "content", "created_at", "genres", "genre_objects", "publication_date", "author", "checked_out_by", "status"]
+        fields = ["id", "title", "content", "created_at", "genres", "publication_date", "author", "checked_out_by", "status",]
 
     def create(self, validated_data):
         # extract genre names and keywords from request
@@ -44,6 +45,9 @@ class BookSerializer(serializers.ModelSerializer):
             book.genres.add(genre)
         return book
     
-    def get_genre_objects(self, obj):
+    def get_genres(self, obj):
         # genre names associated with the book
         return [genre.name for genre in obj.genres.all()]
+    
+    # def get_status_display(self, obj):
+    #     return obj.get_status_display()

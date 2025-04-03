@@ -7,20 +7,27 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Genre(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.name
+    
 class Book(models.Model):
 
     STATUS_CHOICES = [
-        ("available", "Available"),
+        ("available", "Available!"),
         ("checked_out", "Checked Out"),
     ]
 
     title = models.CharField(max_length=100)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=100)
+    content = models.TextField()
     publication_date = models.DateField(null=True, blank=True)
-    genres = models.ManyToManyField("Genre", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True,)
+    genres = models.ManyToManyField(Genre, blank=True)
     checked_out_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="available")
 
@@ -41,8 +48,3 @@ class Book(models.Model):
     #     self.genres.clear()
     #     super().delete(*args, **kwargs)
     
-class Genre(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name

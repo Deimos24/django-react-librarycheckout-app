@@ -5,7 +5,11 @@ function Book({ bookData }) {
 
     if (!bookData) return <LoadingIndicator/>;
 
-    const buttonText = bookData.status === "available" ? "Check Out!" : "Waitlist";
+    const isAvailable = bookData.status === "available"
+
+    // format the action button based on availability
+    const buttonText = isAvailable ? "Check Out!" : "Waitlist";
+    const buttonClass = isAvailable ? "book-button available" : "book-button waitlist";
 
     const handleCheckout = (bookId) => {
         console.log(`Attempting to checkout book with ID: ${bookId}`);
@@ -17,14 +21,14 @@ function Book({ bookData }) {
             <h2>{bookData.title}</h2>
             <h3>by {bookData.author}</h3>
             <p className="book-content">{bookData.content}</p>
-            <p>Status: {bookData.status}</p>
+            {/* <p>Status: {bookData.status_display}</p> */}
             <div className="genre-cloud">
-                {bookData.genre_objects.map((genre, index) => (
+                {bookData.genres.map((genre, index) => (
                     <span key={index} className="genre">{genre}</span>
                 ))}
             </div>
             <button
-                className="book-button"
+                className={buttonClass}
                 onClick={() => handleCheckout(bookData.id)}>{buttonText}</button>
         </div>
     )

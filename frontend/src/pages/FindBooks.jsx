@@ -55,11 +55,9 @@ function FindBooks() {
         }
 
         // add selected genres as filters
-        // this needs attention
-        selectedGenres.forEach(genre => {
-            queryParams.append("genres__name", genre);
-        });
-
+        if (selectedGenres.length > 0) {
+            queryParams.append("genres", selectedGenres.join(","));
+        }
 
         try {
             const res = await api.get(`/api/books/?${queryParams.toString()}`);

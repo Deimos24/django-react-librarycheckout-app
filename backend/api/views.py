@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Count
 import random
 from django.contrib.auth.models import User
 from rest_framework import filters, generics
@@ -15,16 +15,26 @@ class BookListCreate(generics.ListCreateAPIView):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
-    # enable filtering for genres (exact matches) and enable search for partial matching
-    # still need all these backends?
-    filter_backends = [DjangoFilterBackend, CustomSearchFilter, filters.OrderingFilter]
+    # enable search for partial matching, currently not doing any ordering
+    filter_backends = [CustomSearchFilter, filters.OrderingFilter]
 
-    filterset_fields = {
-        'genres__name': ['exact'],
-    }
     search_fields = ['title', 'author', 'content']
-
     ordering_fields = ['created_at', 'title']
+
+    
+    def get_queryset(self):
+        
+        queryset = Book.objects.all()
+        # properly decode query params
+        genre_param = self.request.query_params.get("genres", "")
+        genre_names = genre_param.split(",") if genre_param else []
+        if genre_names:
+            # use greater than or equal to get the genre intersection + extras
+            queryset = queryset.filter(genres__name__in=genre_names).annotate(
+                genre_count=Count("genres")
+            ).filter(genre_count__gte=len(genre_names))
+
+        return queryset
 
 class BookCountView(APIView):
     permission_classes = [IsAuthenticated]

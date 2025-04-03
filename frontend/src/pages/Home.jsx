@@ -14,6 +14,8 @@ function Home() {
     useEffect(() => {
         // seems to be running useEffect twice - hopefully just due to dev strict mode
         // application breaks if logged in user is deleted, need an auto-logout function
+        // token expires and homepage breaks after a certain amount of time on one screen
+        
         const getBookCount = async () => {
             try {
                 const res = await api.get("/api/book-count/");

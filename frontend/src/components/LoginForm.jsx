@@ -3,6 +3,7 @@ import api from "../api"
 import { useNavigate } from "react-router"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
 import { parseErrorResponse } from "./utils"
+import "../styles/LoginForm.css"
 
 function LoginForm({ route, method }) {
     const [username, setUsername] = useState("")
@@ -50,9 +51,14 @@ function LoginForm({ route, method }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
         />
+        <div className="form-button-area">
         <button className="form-button" type="submit">
             {name}
-        </button>
+        </button>{method === "login" && <button className="form-button" type="button" onClick={() => {
+                localStorage.clear()
+                navigate("/register")
+            }}>New user?</button>}
+        </div>
     </form>
 }
 

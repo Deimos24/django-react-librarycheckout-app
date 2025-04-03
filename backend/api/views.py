@@ -66,8 +66,9 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
     
-class GenreView(APIView):
+class GenreView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = GenreSerializer
 
     # did I do this right?
     def get(self, request):

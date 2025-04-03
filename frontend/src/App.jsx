@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound"
 import Register from "./pages/Register"
 import FindBooks from "./pages/FindBooks"
 import Administration from "./pages/Administration"
+import "./styles/App.css"
 
 function Logout() {
   localStorage.clear()

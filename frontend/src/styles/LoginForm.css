@@ -1,0 +1,6 @@
+.form-button-area {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+    gap: 12px
+}

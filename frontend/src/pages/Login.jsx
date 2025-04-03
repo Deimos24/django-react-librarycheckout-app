@@ -5,17 +5,8 @@ function Login() {
 
     const navigate = useNavigate()
 
-    return (
-        <>
-            <LoginForm route="/api/token/" method="login" />
-            <button onClick={() => {
-                localStorage.clear()
-                navigate("/register")
-            }}>Register new user</button>
-        </>
-
-    )
-
+    return <LoginForm route="/api/token/" method="login" />
+    
 }
 
 export default Login

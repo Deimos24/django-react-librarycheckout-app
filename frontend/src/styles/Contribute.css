@@ -1,4 +1,55 @@
+.contribute-container {
+    max-width: 600px;
+    margin: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .book-form {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+}
+
+.book-form input,
+.book-form textarea,
+.book-form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.book-form textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.book-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.book-form button:hover {
+    background-color: #0056b3;
+}
+
+.add-genre {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-genre input {
+    flex: 1;
 }

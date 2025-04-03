@@ -3,6 +3,8 @@ import LoadingIndicator from "./LoadingIndicator";
 
 function Book({ bookData }) {
 
+    // BUG: maxed out forms can create a tall book
+
     if (!bookData) return <LoadingIndicator/>;
 
     const isAvailable = bookData.status === "available"

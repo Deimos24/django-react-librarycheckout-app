@@ -25,7 +25,6 @@ function FindBooks() {
             }
         };
         getGenres();
-
     }, []);
 
     const handleChange = (e) => {
@@ -77,7 +76,6 @@ function FindBooks() {
     return (
         <>
             <form onSubmit={handleSubmit} className="form-container">
-                <h2>Search:</h2>
                 <input className="form-input"
                     type="text"
                     value={searchValue}
@@ -89,7 +87,7 @@ function FindBooks() {
                         <option value="all">All</option>
                         <option value="title">Title</option>
                         <option value="author">Author</option>
-                        <option value="content">Keyword</option>
+                        <option value="content">Content</option>
                     </select>
                 </div>
                 <div className="genre-cloud">

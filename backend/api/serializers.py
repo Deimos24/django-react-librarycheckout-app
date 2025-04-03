@@ -27,27 +27,24 @@ class UserSerializer(serializers.ModelSerializer):
     
 
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.SerializerMethodField()
-    # status_display = serializers.SerializerMethodField()
 
+    # mishandling the list of genres somehow, POST and GET aren't playing nice
+
+    # for GET requests: return a list of genre names
+    genres = serializers.SlugRelatedField(queryset=Genre.objects.all(), slug_field="name", many=True)
 
     class Meta:
         model = Book
         fields = ["id", "title", "content", "created_at", "genres", "publication_date", "author", "checked_out_by", "status",]
 
     def create(self, validated_data):
-        # extract genre names and keywords from request
-        genre_names = validated_data.pop("genres", [])
+        # extract genres and add them
+        genre_names = validated_data.pop('genres', [])
         book = Book.objects.create(**validated_data)
+
+        # hmm
         for name in genre_names:
-            # create genre if it doesn't exist
-            genre, _ = Genre.objects.get_or_create(name=name)
+            genre = Genre.objects.get(name=name)
             book.genres.add(genre)
+        
         return book
-    
-    def get_genres(self, obj):
-        # genre names associated with the book
-        return [genre.name for genre in obj.genres.all()]
-    
-    # def get_status_display(self, obj):
-    #     return obj.get_status_display()

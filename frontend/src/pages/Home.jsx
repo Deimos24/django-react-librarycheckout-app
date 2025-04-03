@@ -2,8 +2,15 @@ import { useState, useEffect } from "react"
 import api from "../api"
 import Book from "../components/Book";
 import LoadingIndicator from "../components/LoadingIndicator";
+import "../styles/Home.css"
 
 function Home() {
+
+    // BUGS:
+    // seems to be running useEffect twice - hopefully just due to dev strict mode
+    // application breaks if logged in user is deleted, need an auto-logout function
+    // token expires and homepage breaks after a certain amount of time on one screen
+    // need to take a closer look at how style sheets are used - saw some bleeding
 
     const [bookCount, setBookCount] = useState(0);
     const [bookWord, setBookWord] = useState("books");
@@ -12,10 +19,6 @@ function Home() {
     const [userName, setUsername] = useState("");
 
     useEffect(() => {
-        // seems to be running useEffect twice - hopefully just due to dev strict mode
-        // application breaks if logged in user is deleted, need an auto-logout function
-        // token expires and homepage breaks after a certain amount of time on one screen
-        
         const getBookCount = async () => {
             try {
                 const res = await api.get("/api/book-count/");
@@ -59,10 +62,10 @@ function Home() {
 
     return (
         <div className="home-page">
-        <h2>Welcome to the library, {userName}!</h2>
-        {loading ? <LoadingIndicator/> : <p>We have {bookCount} {bookWord} in our catalogue.</p>}
-        <div className="random-book-section">
-            <h3>Check this one out:</h3>
+        <h2 className="home-text">Welcome to the library, {userName}!</h2>
+        {loading ? <LoadingIndicator/> : <p className="home-text">We have {bookCount} {bookWord} in our catalogue.</p>}
+        <div className="featured-book-section">
+            <h3 className="home-text">Check this one out:</h3>
             {loading ? <LoadingIndicator/> : <Book bookData={randomBook} />}
         </div>
         </div>

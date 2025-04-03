@@ -32,7 +32,7 @@ class Book(models.Model):
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="available")
 
     def __str__(self):
-        return f"{self.title} by {self.author}"
+        return f"\"{self.title}\" by {self.author}"
     
     def save(self, *args, **kwargs):
         if self.checked_out_by:

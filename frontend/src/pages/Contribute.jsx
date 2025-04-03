@@ -22,7 +22,7 @@ function Contribute() {
         publication_date: "",
         genres: [],
     })
-    
+
     useEffect(() => {
         const getGenres = async () => {
             try {
@@ -76,7 +76,11 @@ function Contribute() {
             const res = await api.post("/api/genres/", { name: newGenre });
             if (res.status === 201) {
                 setGenreNames([...genreNames, newGenre]);
-                setBookData({ ...bookData, genres: [...bookData.genres, newGenre] });
+                // don't allow genre limit bypass with newGenre
+                if (bookData.genres.length < MAX_GENRES && !bookData.genres.includes(newGenre)) {
+                    setBookData({ ...bookData, genres: [...bookData.genres, newGenre] });
+                }
+
                 setNewGenre("");
             }
         } catch (error) {
@@ -85,7 +89,7 @@ function Contribute() {
     };
 
     const handleSubmit = async (e) => {
-        
+
         setLoading(true);
         e.preventDefault();
 
@@ -95,7 +99,7 @@ function Contribute() {
                 alert("Book added succesfully!");
                 setBookData({ title: "", author: "", content: "", publication_date: "", genres: [] });
             }
-                setIsAddGenreVisible(false)
+            setIsAddGenreVisible(false)
         } catch (error) {
             alert(parseErrorResponse(error));
         } finally {
@@ -124,7 +128,7 @@ function Contribute() {
                         >
                             {genre}
                         </span>))}<span className={`genre ${isAddGenreVisible ? "selected" : ""}`} onClick={() => setIsAddGenreVisible(!isAddGenreVisible)}>
-                    {isAddGenreVisible ? "-" : "+"}</span>
+                        {isAddGenreVisible ? "-" : "+"}</span>
                 </div>
 
                 {isAddGenreVisible && (
@@ -133,7 +137,6 @@ function Contribute() {
                         <button type="button" onClick={handleAddGenre}>Add Genre</button>
                     </div>
                 )}
-
 
                 <button type="submit">{loading ? "Adding..." : "Add Book"}</button>
             </form>

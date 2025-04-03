@@ -4,7 +4,8 @@ import "../styles/FindBooks.css"
 import Book from "../components/Book"
 
 function FindBooks() {
-
+    
+    const [userID, setUserID] = useState(null);
     const [genreNames, setGenreNames] = useState([])
     const [selectedSearch, setSelectedSearch] = useState('all');
     const [searchValue, setSearchValue] = useState('');
@@ -12,6 +13,17 @@ function FindBooks() {
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
+        // hopefully replacing this with context
+        const getUser = async () => {
+            try {
+                const res = await api.get("/api/current-user/")
+                const user = res.data
+                setUserID(user.id)
+            } catch (error) {
+                console.error("Error fetching user data", error)
+            }
+        };
+
         const getGenres = async () => {
             try {
                 const res = await api.get("/api/genres/");
@@ -24,6 +36,7 @@ function FindBooks() {
                 console.error("Error fetching genres", error);
             }
         };
+        getUser();
         getGenres();
     }, []);
 
@@ -63,7 +76,7 @@ function FindBooks() {
             const bookResults = res.data
             setSearchResults(
                 bookResults.length > 0
-                    ? bookResults.map(book => <Book key={book.id} bookData={book} />)
+                    ? bookResults.map(book => <Book key={book.id} bookData={book} userID={userID} />)
                     : "Your search returned no results."
             );
 

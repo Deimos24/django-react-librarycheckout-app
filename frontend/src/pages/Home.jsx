@@ -17,6 +17,8 @@ function Home() {
     const [randomBook, setRandomBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [userName, setUsername] = useState("");
+    const [userID, setUserID] = useState(null);
+
 
     useEffect(() => {
         const getBookCount = async () => {
@@ -46,6 +48,7 @@ function Home() {
                 const res = await api.get("/api/current-user/")
                 const user = res.data
                 setUsername(user.username)
+                setUserID(user.id)
             } catch (error) {
                 console.error("Error fetching user data", error)
             } finally {
@@ -64,10 +67,10 @@ function Home() {
         <div className="home-page">
         <h2 className="home-text">Welcome to the library, {userName}!</h2>
         {loading ? <LoadingIndicator/> : <p className="home-text">We have {bookCount} {bookWord} in our catalogue.</p>}
-        <div className="featured-book-section">
+        {randomBook && <div className="featured-book-section">
             <h3 className="home-text">Check this one out:</h3>
-            {loading ? <LoadingIndicator/> : <Book bookData={randomBook} />}
-        </div>
+            {loading ? <LoadingIndicator/> : <Book bookData={randomBook} userID={userID} />}
+        </div>}
         </div>
     ) 
 

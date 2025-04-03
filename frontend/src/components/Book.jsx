@@ -1,21 +1,52 @@
 import "../styles/Book.css"
+import api from "../api";
+import { useEffect, useState } from "react";
 import LoadingIndicator from "./LoadingIndicator";
 
-function Book({ bookData }) {
+function Book({ bookData, userID }) {
 
     // BUG: maxed out forms can create a tall book
 
     if (!bookData) return <LoadingIndicator/>;
 
+    // need to organize checkout function logic
     const isAvailable = bookData.status === "available"
+    const isCheckedOutByUser = bookData.checked_out_by === userID;
+    const [buttonText, setButtonText] = useState("")
+    const [buttonClass, setButtonClass] = useState("")
+    const [buttonDisabled, setButtonDisabled] = useState(false)
 
-    // format the action button based on availability
-    const buttonText = isAvailable ? "Check Out!" : "Waitlist";
-    const buttonClass = isAvailable ? "book-button available" : "book-button waitlist";
+    useEffect(()=> {
+        // this seems terrible
+        if (isAvailable) {
+            setButtonText("Check Out!")
+            setButtonClass("book-button checkout")
+        } else if (isCheckedOutByUser) {
+            setButtonText("Return It")
+            setButtonClass("book-button return")
+        } else {
+            setButtonText("Waitlist")
+            setButtonClass("book-button waitlist")
+            setButtonDisabled(true)
+        }
+    });
 
-    const handleCheckout = (bookId) => {
-        console.log(`Attempting to checkout book with ID: ${bookId}`);
-        // Add API call to checkout book
+    const handleAction = async () => {
+
+        try {
+            if (isCheckedOutByUser) {
+                // return the book
+                await api.patch(`/api/books/update/${bookData.id}/`, { checked_out_by: null, status: "available" });
+            } else {
+                // checkout the book
+                await api.patch(`/api/books/update/${bookData.id}/`, { checked_out_by: userID, status: "checked_out" });
+            }
+            // temp refresh - next step is give action feedback
+            // but retain page state until something changes
+            window.location.reload();
+        } catch (error) {
+            console.error("Error updating book status", error);
+        }
     };
 
     return (
@@ -23,7 +54,6 @@ function Book({ bookData }) {
             <h2>{bookData.title}</h2>
             <h3>by {bookData.author}</h3>
             <p className="book-content">{bookData.content}</p>
-            {/* <p>Status: {bookData.status_display}</p> */}
             <div className="genre-cloud">
                 {bookData.genres.map((genre, index) => (
                     <span key={index} className="genre">{genre}</span>
@@ -31,7 +61,8 @@ function Book({ bookData }) {
             </div>
             <button
                 className={buttonClass}
-                onClick={() => handleCheckout(bookData.id)}>{buttonText}</button>
+                disabled={buttonDisabled}
+                onClick={() => handleAction()}>{buttonText}</button>
         </div>
     )
 

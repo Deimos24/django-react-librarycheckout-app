@@ -57,7 +57,7 @@ function LoginForm({ route, method }) {
         </button>{method === "login" && <button className="form-button" type="button" onClick={() => {
                 localStorage.clear()
                 navigate("/register")
-            }}>New user?</button>}
+            }}>New User?</button>}
         </div>
     </form>
 }

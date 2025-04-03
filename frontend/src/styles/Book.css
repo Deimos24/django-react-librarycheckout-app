@@ -45,15 +45,26 @@
     border-radius: 5px;
 }
 
-.book-button.available {
+.book-button.checkout {
         background: #8b4513;
         cursor: pointer;
         transition: 0.2s ease-in-out;
         font-weight: bold;
 }
 
-.book-button.available:hover {
+.book-button.checkout:hover {
     background: #a0522d;
+}
+
+.book-button.return {
+    background: #498b13;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    font-weight: bold;
+}
+
+.book-button.return:hover {
+background: #51a02d;
 }
 
 .book-button.waitlist {

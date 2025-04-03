@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django_filters.rest_framework import DjangoFilterBackend
 import random
 from django.contrib.auth.models import User
-from rest_framework import filters, generics
+from rest_framework import filters, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSerializer, BookSerializer, GenreSerializer
@@ -16,10 +17,13 @@ class BookListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     # enable search for partial matching, currently not doing any ordering
-    filter_backends = [CustomSearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, CustomSearchFilter, filters.OrderingFilter]
 
     search_fields = ['title', 'author', 'content']
     ordering_fields = ['created_at', 'title']
+    filterset_fields = {
+    "checked_out_by": ["exact"],
+    }
 
     
     def get_queryset(self):
@@ -35,6 +39,19 @@ class BookListCreate(generics.ListCreateAPIView):
             ).filter(genre_count__gte=len(genre_names))
 
         return queryset
+    
+class BookUpdateView(APIView):
+    queryset=Book.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        book = Book.objects.get(pk=pk)
+        serializer = BookSerializer(book, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class BookCountView(APIView):
     permission_classes = [IsAuthenticated]

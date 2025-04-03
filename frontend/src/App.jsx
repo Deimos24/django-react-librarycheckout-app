@@ -8,7 +8,7 @@ import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import Register from "./pages/Register"
 import FindBooks from "./pages/FindBooks"
-import Administration from "./pages/Administration"
+import Account from "./pages/Account"
 import "./styles/App.css"
 
 function Logout() {
@@ -44,9 +44,9 @@ function App() {
             <Contribute />
           </ProtectedRoute>
         } />
-        <Route path="/admin" element={
+        <Route path="/account" element={
           <ProtectedRoute>
-            <Administration />
+            <Account />
           </ProtectedRoute>
         } />
         <Route path="/login" element={<Login />} />

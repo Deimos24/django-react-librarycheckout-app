@@ -29,21 +29,27 @@ function Book({ bookData, userID }) {
             setButtonClass("book-button waitlist")
             setButtonDisabled(true)
         }
-    });
+    }, []);
 
     const handleAction = async () => {
 
         try {
             if (isCheckedOutByUser) {
                 // return the book
+                setButtonClass("book-button waitlist")
+                setButtonText("Book Returned!")
+                setButtonDisabled(true)
                 await api.patch(`/api/books/update/${bookData.id}/`, { checked_out_by: null, status: "available" });
             } else {
                 // checkout the book
+                setButtonClass("book-button waitlist")
+                setButtonText("Book Checked Out!")
+                setButtonDisabled(true)
                 await api.patch(`/api/books/update/${bookData.id}/`, { checked_out_by: userID, status: "checked_out" });
             }
-            // temp refresh - next step is give action feedback
-            // but retain page state until something changes
-            window.location.reload();
+
+            // retain page state until something changes
+            // window.location.reload();
         } catch (error) {
             console.error("Error updating book status", error);
         }

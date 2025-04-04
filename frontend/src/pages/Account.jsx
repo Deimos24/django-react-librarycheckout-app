@@ -47,7 +47,7 @@ function Account() {
     }, [userID]);
 
     return (
-        <div>
+        <div className="account-page">
             <h2>Account</h2>
             <p>My checked out books:</p>
             <div className="book-results-container">

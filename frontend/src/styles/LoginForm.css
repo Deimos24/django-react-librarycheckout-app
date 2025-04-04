@@ -4,3 +4,14 @@
     flex-direction: row;
     gap: 12px
 }
+
+.password-container {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.eye-button {
+    width: 40px;
+}

@@ -1,7 +1,11 @@
 import { Link } from "react-router";
+import { useContext } from "react";
 import "../styles/Navbar.css"
+import { UserContext } from "./utils";
 
 function Navbar() {
+
+    const { isAuthorized } = useContext(UserContext)
 
     return (
         <nav className="navbar">
@@ -13,7 +17,7 @@ function Navbar() {
                     <Link to="/account">Account</Link>
                 </div>
                 <div className="navbar-login">
-                    <Link to="/login">Login</Link>
+                    {isAuthorized ? <Link to="/logout">Logout</Link> : <Link to="/login">Login</Link>}
                 </div>
         </nav>
     )

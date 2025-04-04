@@ -42,7 +42,7 @@ class BookSerializer(serializers.ModelSerializer):
         genre_names = validated_data.pop('genres', [])
         book = Book.objects.create(**validated_data)
 
-        # hmm
+        # this feels off
         for name in genre_names:
             genre = Genre.objects.get(name=name)
             book.genres.add(genre)

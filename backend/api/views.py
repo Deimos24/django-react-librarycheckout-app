@@ -11,6 +11,7 @@ from .custom_filters import CustomSearchFilter
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Book, Genre
 
+
 class BookListCreate(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -40,6 +41,7 @@ class BookListCreate(generics.ListCreateAPIView):
 
         return queryset
     
+
 class BookUpdateView(APIView):
     queryset=Book.objects.all()
     permission_classes = [IsAuthenticated]
@@ -60,6 +62,7 @@ class BookCountView(APIView):
         book_count = Book.objects.count()
         return Response({"count": book_count})
 
+
 class GetRandomBook(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -71,10 +74,12 @@ class GetRandomBook(APIView):
             return Response(serializer.data)
         return Response({"error": "No available books"}, status=404)
 
+
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
 
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -83,6 +88,7 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
     
+
 class GenreView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = GenreSerializer

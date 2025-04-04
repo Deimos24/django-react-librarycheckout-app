@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import api from "../api"
 import { useNavigate } from "react-router"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
-import { parseErrorResponse } from "./utils"
+import { parseErrorResponse, UserContext } from "./utils"
 import "../styles/LoginForm.css"
 
 function LoginForm({ route, method }) {
@@ -12,6 +12,7 @@ function LoginForm({ route, method }) {
     const navigate = useNavigate()
 
     const name = method === "login" ? "Login" : "Register"
+    const { setIsAuthorized } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -23,6 +24,7 @@ function LoginForm({ route, method }) {
             if (method === "login") {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                setIsAuthorized(true);
                 navigate("/");
             } else {
                 // go to login after registration
@@ -52,9 +54,9 @@ function LoginForm({ route, method }) {
             placeholder="Password"
         />
         <div className="form-button-area">
-        <button className="form-button" type="submit">
-            {name}
-        </button>{method === "login" && <button className="form-button" type="button" onClick={() => {
+            <button className="form-button" type="submit">
+                {name}
+            </button>{method === "login" && <button className="form-button" type="button" onClick={() => {
                 localStorage.clear()
                 navigate("/register")
             }}>New User?</button>}

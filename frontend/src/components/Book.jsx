@@ -3,7 +3,7 @@ import api from "../api";
 import { useEffect, useState } from "react";
 import LoadingIndicator from "./LoadingIndicator";
 
-function Book({ bookData, userID }) {
+function Book({ bookData, userID, onCheckout }) {
 
     // BUG: maxed out forms can create a tall book
 
@@ -44,6 +44,7 @@ function Book({ bookData, userID }) {
                 // checkout the book
                 setButtonClass("book-button waitlist")
                 setButtonText("Book Checked Out!")
+                onCheckout();
                 setButtonDisabled(true)
                 await api.patch(`/api/books/update/${bookData.id}/`, { checked_out_by: userID, status: "checked_out" });
             }

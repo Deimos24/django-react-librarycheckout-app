@@ -7,5 +7,21 @@ export default defineConfig({
   server: {
     host: true,
     port: process.env.PORT
-  }
-})
+  },
+  // Log port for debugging
+  build: {
+    // This will log the port to your Heroku logs when the app starts.
+    postcss: {
+      plugins: [
+        {
+          plugin: {
+            transform: (content) => {
+              console.log(`App is running on port: ${process.env.PORT}`);
+              return content;
+            },
+          },
+        },
+      ],
+    },
+  },
+});

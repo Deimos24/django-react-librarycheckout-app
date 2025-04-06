@@ -1,5 +1,5 @@
 import { react, useState, useEffect } from "react"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Navbar from "./components/Navbar"
 import Contribute from "./pages/Contribute"

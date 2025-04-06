@@ -76,7 +76,7 @@ function FindBooks() {
             const bookResults = res.data
             setSearchResults(
                 bookResults.length > 0
-                    ? bookResults.map(book => <Book key={book.id} bookData={book} userID={userID} />)
+                    ? bookResults.map(book => <Book key={book.id} bookData={book} userID={userID} onCheckout={()=> null} />)
                     : "Your search returned no results."
             );
 
